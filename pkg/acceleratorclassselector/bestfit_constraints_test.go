@@ -7,6 +7,8 @@ import (
 	"sigs.k8s.io/ome/pkg/apis/ome/v1beta1"
 )
 
+// TestBestFitNilConstraintsMemoryScore verifies that omitted constraints yield a
+// perfect memory fit without reading the candidate's memory specification.
 func TestBestFitNilConstraintsMemoryScore(t *testing.T) {
 	candidate := v1beta1.AcceleratorClass{}
 	if got := calculateMemoryFitScore(candidate, nil); got != 1 {
@@ -14,6 +16,8 @@ func TestBestFitNilConstraintsMemoryScore(t *testing.T) {
 	}
 }
 
+// TestBestFitNilConstraintsComputeScore verifies that omitted constraints preserve
+// compute scoring for missing, empty, and populated performance data.
 func TestBestFitNilConstraintsComputeScore(t *testing.T) {
 	for _, tt := range []struct {
 		name        string
@@ -41,6 +45,8 @@ func TestBestFitNilConstraintsComputeScore(t *testing.T) {
 	}
 }
 
+// TestBestFitWithoutConstraints exercises public BestFit selection with multiple
+// candidates when constraints are omitted or explicitly empty.
 func TestBestFitWithoutConstraints(t *testing.T) {
 	for _, tt := range []struct {
 		name        string
